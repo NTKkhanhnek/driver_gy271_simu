@@ -12,13 +12,13 @@ void delay_init(void){
    #if (DELAY_SRC == TIMER1)   
       clock_enable_APB2(TIM1_peripheral);
   // set 1 msec for timer1
-  // rcc --> 16Mhz --> PSC = 16 --> 1000000Hz | 1cnt - 1us
+  // rcc --> 100Mhz --> PSC = 100 --> 1000000Hz | 1cnt - 1us
   //ARR = 1000    |  1000cnt - 1ms 
  
  uint16_t* TIM1_ARR = (uint16_t*) (TIM1_ADDR_BASE + 0x2C);
  uint16_t* TIM1_PSC = (uint16_t*) (TIM1_ADDR_BASE + 0x28);
- *TIM1_PSC = 16-1;
- *TIM1_ARR = 1000;
+ *TIM1_PSC = 100-1;
+ *TIM1_ARR = 1000-1;
  //interrupt timer1
   uint16_t* TIM1_DIER = (uint16_t*) (TIM1_ADDR_BASE + 0x0C);
     *TIM1_DIER |= ( 1 << 0 ); // enable interrupt for timer1
@@ -60,6 +60,7 @@ void delay_ms(uint32_t ms){
         uint32_t current_time = tim1_cnt;
         while ((tim1_cnt - current_time) < ms);
 }
+
 
 
 
